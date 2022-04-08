@@ -29,17 +29,79 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({ Key? key }) : super(key: key);
+class HomePage extends StatefulWidget {
+  HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int index = 0;
+
+  final screens = [
+    Center(
+      child: Text("data1"),
+    ),
+    Center(
+      child: Text("data2"),
+    ),
+    Center(
+      child: Text("data3"),
+    ),
+    Center(
+      child: Text("data4"),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: screens[index],
       bottomNavigationBar: NavigationBarTheme(
-        data: NavigationBarThemeData(indicatorColor: Colors.blue.shade100,),
-        child: NavigationBar(height: 60,destinations: [
-          
-        ]),
+        data: NavigationBarThemeData(
+          indicatorColor: Colors.blue.shade100,
+          labelTextStyle: MaterialStateProperty.all(
+            const TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+            ),
+          ),
+        ),
+        child: NavigationBar(
+            height: 60,
+            backgroundColor: Color(0xFFf1f5fb),
+            selectedIndex: index,
+            onDestinationSelected: (index) {
+              setState(() {
+                this.index = index;
+              });
+            },
+            
+            labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+            animationDuration: const Duration(milliseconds: 1500),
+            destinations: const [
+              NavigationDestination(
+                icon: Icon(Icons.mail_outline),
+                selectedIcon: Icon(Icons.email),
+                label: 'mail',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.chat_bubble_outline),
+                selectedIcon: Icon(Icons.chat_bubble),
+                label: 'chat',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.people_alt_outlined),
+                selectedIcon: Icon(Icons.people),
+                label: 'spaces',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.videocam_outlined),
+                selectedIcon: Icon(Icons.videocam),
+                label: 'meet',
+              ),
+            ]),
       ),
     );
   }
